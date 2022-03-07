@@ -90,20 +90,36 @@ svg {
             list-style: none;
         }
 
+        .span-project:hover, #new-project:hover, .delete-project {
+            cursor: pointer;
+        }
+
     .content {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        grid-template-rows: repeat(auto-fit);
+        grid-template-rows: 60px 1fr;
         padding: 50px;
         gap: 50px;
         background-color: var(--content-background);
     }
 
-        .content-project-title {
+        .content-header {
             grid-row: 1 / 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 3rem;
             color: var(--sidebar-background);
         }
+            .new-task {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+
+            #new-task-icon {
+                color: var(--sidebar-background);
+            }
         .card-container {
             grid-row: 2 / 3;
             display: grid;
@@ -114,7 +130,7 @@ svg {
         .card {
             box-sizing: border-box;
             height: 300px;
-            width: 300px;
+            /* width: 300px; */
             padding: 20px;
             background-color: var(--sidebar-background);
             border-radius: 20px;
@@ -144,7 +160,7 @@ svg {
         padding: 20px;
         border: 1px solid #888;
         border-radius: 20px;
-        width: 50%; /* Could be more or less, depending on screen size */
+        width: 30%; /* Could be more or less, depending on screen size */
     }
 
         .modal-title {
@@ -165,6 +181,12 @@ svg {
         .modal-content input {
             width: 100%;
             align-self: center;
+        }
+
+        .submit-name-button {
+            background-color: transparent;
+            outline: none;
+            border: none;
         }
 
     /* TIck button */
