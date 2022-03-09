@@ -47,39 +47,62 @@
             <div class="content-header">
                 <span class="content-project-title">Default</span>
                 <div class="new-task">
-                    <svg style="width:48px;height:48px" viewBox="0 0 24 24" id="new-task-icon">
+                    <svg style="width:48px;height:48px" viewBox="0 0 24 24" id="new-task">
                         <path fill="currentColor" d="M21 15V18H24V20H21V23H19V20H16V18H19V15H21M14 18H3V6H19V13H21V6C21 4.89 20.11 4 19 4H3C1.9 4 1 4.89 1 6V18C1 19.11 1.9 20 3 20H14V18Z" />
                     </svg>
-                    <span class="new-task-text">New Task</span>
+                    <span class="new-task-text" id="new-task">New Task</span>
                 </div>
             </div>
             <div class="card-container">
-                <div class="card">
-                    <div class="card-title">Default</div>
-                </div>
-                <div class="card">
-                    <div class="card-title">Default</div>
-                </div>
-                <div class="card">
-                    <div class="card-title">Default</div>
-                </div>
             </div>
         </div>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
+    <!-- Create Project Modal -->
+    <div id="project-modal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-title">
                 Please input project name.
             </div>
-            <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="close">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="project-modal-close">
                 <path fill="currentColor" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" />
             </svg>
                 <form action="javascript:void(0);" class="modal-input">
                     <input type="text" class="project-name-input">
                     <button class="submit-name-button">
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="tick">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="project-modal-tick">
+                            <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z" />
+                        </svg>
+                    </button>
+                </form>
+        </div>
+    </div>
+
+    <!-- Create Task Modal -->
+    <div id="task-modal" class="modal">
+        <!-- Modal content -->
+        <div class="task-modal-content">
+            <div class="modal-title">
+                Create a New Task
+            </div>
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="task-modal-close">
+                <path fill="currentColor" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" />
+            </svg>
+                <form action="javascript:void(0);" class="task-input">
+                    <label for="name">Name: </label>
+                    <input type="text" name='name' class="task-name-input">
+                    <label for="description">Description: </label>
+                    <input type="textarea" name='description' class="task-description-input">
+                    <label for="date">Date Due: </label>
+                    <input type="date" name='date' class="task-date-input">
+                    <label for="priority">Priority: </label>
+                    <select name="priority" id="priority" class="task-priority">
+                        <option value=1>High</option>
+                        <option value=2>Medium</option>
+                        <option value=3>Low</option>
+                    </select>
+                    <button class="submit-task-button">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="task-modal-tick">
                             <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z" />
                         </svg>
                     </button>
