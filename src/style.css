@@ -2,6 +2,9 @@
     --header-background: #475569;
     --sidebar-background: #94a3b8;
     --content-background: #f1f5f9;
+    --card-high-priority: red;
+    --card-medium-priority: yellow;
+    --card-low-priority: green;
     --icon-color: white;
     --title-color: white;
     --title-weight: 800;
@@ -117,7 +120,7 @@ svg {
                 gap: 20px;
             }
 
-            #new-task-icon {
+            #new-task {
                 color: var(--sidebar-background);
             }
         .card-container {
@@ -128,13 +131,37 @@ svg {
             gap: 50px;
         }
         .card {
+            display: grid;
+            grid-template-columns: 20px 1fr;
             box-sizing: border-box;
             height: 300px;
-            /* width: 300px; */
-            padding: 20px;
             background-color: var(--sidebar-background);
             border-radius: 20px;
         }
+            .card-content {
+                grid-column: 2 / 3;
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .priority-high {
+                background-color: var(--card-high-priority);
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+            }
+
+            .priority-medium {
+                background-color: var(--card-medium-priority);
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+            }
+
+            .priority-low {
+                background-color: var(--card-low-priority);
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+            }
 
         /* The Modal (background) */
 .modal {
@@ -150,7 +177,7 @@ svg {
     background-color: rgba(0,0,0,0.2); /* Black w/ opacity */
 }
   
-    /* Modal Content/Box */
+    /* Project Modal Content/Box */
     .modal-content {
         display: grid;
         grid-template-columns: 1fr 80% 1fr;
@@ -208,3 +235,22 @@ svg {
         text-decoration: none;
         cursor: pointer;
     }
+
+    /* Tasl Modal Content/Box */
+    .task-modal-content {
+        display: grid;
+        grid-template-columns: 1fr 80% 1fr;
+        grid-template-rows: 40px 1fr;
+        background-color: var(--sidebar-background);
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        border-radius: 20px;
+        width: 30%; /* Could be more or less, depending on screen size */
+    }
+
+        .task-input {
+            grid-column: 2 / 3;
+            display: flex;
+            flex-direction: column;
+        }

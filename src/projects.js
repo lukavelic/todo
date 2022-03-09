@@ -1,73 +1,62 @@
-import { DOMRenderer } from './render'
-
-// create new object to hold project objects
-
-class createProjectStorage {
-    constructor () {
-        this.list = [];
-    }
-}
-
-const projectStorage = new createProjectStorage('default');
+import { projectStorage } from './index'
 
 // project objects
 
-class createProject {
+class CreateProject {
+
     constructor (name) {
-        this.name = name // .replace(/[^A-Z0-9]/ig, "_"); // removes whitespace, replace with underscore
+        this.name = name;
         this.id = this.generateGuid();
         this.taskCounter = 0;
         this.taskStorage = [];
         this.addProjectToStorage();
     }
 
+    // this should go in project storage
+
     addProjectToStorage() {
         projectStorage.list.push(this);
-        DOMRenderer.renderProjectList();
-    }
-
-    removeProjectFromStorage() {
-
-        const projectID = this.id.slice(0, -12);
-
-        const findProjectIndex = (element) => element.id === projectID;
-        
-        const projectIndex = projectStorage.list.findIndex(findProjectIndex);
-
-        projectStorage.list.splice(projectIndex, 1);
-        DOMRenderer.renderProjectList();
+        // DOMRenderer.renderProjectList(); 
     }
 
     // add tasks to project object
 
     createNewTask (name, description, priority, status, date) {
 
-        const taskName = 'task' + this.taskCounter;
-        this.taskStorage[taskName] = {
-            name: name,
-            description: description,
-            priority: priority,
-            status: status,
-            date: date,
-        }
+        const task = {
+            id: this.generateGuid(),
+            name,
+            description,
+            priority,
+            status,
+            date,
+        };
+
+        this.taskStorage.push(task);
 
         this.taskCounter++;
     }
 
     // remove tasks from project object
 
-    deleteTask (taskName) {
+    deleteTask (selectedProject, taskId) {
 
-        delete this[taskName];
+        console.log(selectedProject.taskStorage)
 
-        this.taskCounter--;
+        const findTaskIndex = (element) => element.id === taskId;
+        const taskIndex = selectedProject.taskStorage.findIndex(findTaskIndex);
+        console.log(taskIndex)
+
+        selectedProject.taskStorage.splice(taskIndex, 1);
+
+        selectedProject.taskCounter--;
     }
 
     // id
 
     generateGuid() {
         let result, i, j;
-        result = 'A';
+        result = 'A'; // should not start with number for queryselector
         for(j=0; j<32; j++) {
           if( j == 8 || j == 12 || j == 16 || j == 20)
             result = result + '-';
@@ -79,29 +68,4 @@ class createProject {
 
 }
 
-// const testProject = new createProject('default space test');
-// const testProjectTwo = new createProject('test');
-// const testProjectThree = new createProject('anothertest');
-// const testProjectFour = new createProject('ua');
-
-// testProject.addProjectToStorage();
-// testProjectTwo.addProjectToStorage()
-// testProjectThree.addProjectToStorage()
-// testProjectFour.addProjectToStorage()
-
-// console.log(projectStorage)
-
-// testProjectThree.removeProjectFromStorage();
-
-// console.log(projectStorage)
-
-// testProject.createNewTask('new task', 'buy bottles', 1, false, 22022022);
-
-// console.log(projectStorage)
-
-// testProject.deleteTask('task0');
-
-// console.log(projectStorage)
-
-export { createProjectStorage, createProject, projectStorage};
-
+export { CreateProject };
