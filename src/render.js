@@ -92,9 +92,15 @@ class renderDOM {
                 // Title
                 const cardTitle = document.createElement('div');
                 cardTitle.setAttribute('class', 'card-title');
-                // cardTitle.setAttribute('id', `${taskObject.id}-expand-icon`);
+
+                let checkboxStatus;
+                if(taskObject.status === true) {
+                    checkboxStatus = 'checked'
+                    cardContentDiv.setAttribute('class', 'card-content strike');
+                }
+
                 cardTitle.innerHTML = `${taskObject.name} <div class="task-icons">
-                <label class="checkbox-container"><input type="checkbox" id="${taskObject.id}-checkbox"><span class="mark"></span></label>
+                <label class="checkbox-container"><input type="checkbox" id="${taskObject.id}-checkbox" ${checkboxStatus}><span class="mark"></span></label>
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24" id="${taskObject.id}-expand-icon">
                 <path fill="currentColor" d="M10,21V19H6.41L10.91,14.5L9.5,13.09L5,17.59V14H3V21H10M14.5,10.91L19,6.41V10H21V3H14V5H17.59L13.09,9.5L14.5,10.91Z" id="${taskObject.id}-expand-icon"/>
                 </svg> <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="delete-project" id="${taskObject.id}-delete-icon">
@@ -235,7 +241,7 @@ class renderDOM {
         const enterKey = (event) => {        
             if(event.keyCode === 13) {
                 closeProjectModal();
-                createProjectFromInput();
+                DOMRenderer.createProjectFromInput();
             }
         }
         
@@ -334,7 +340,11 @@ class renderDOM {
         let priorityValue = priorityInput.value;
         priorityValue = parseInt(priorityValue);
     
-        project.createNewTask(nameValue, descriptionValue, priorityValue, false, dateValue);  
+        project.createNewTask(nameValue, descriptionValue, priorityValue, false, dateValue);
+
+        nameInput.value = '';
+        descriptionInput.value = '';
+        dateInput.value = '';
     
     };
 

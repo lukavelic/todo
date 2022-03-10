@@ -79,6 +79,7 @@ svg {
     .sidebar {
         grid-row: 2 / 3;
         background-color: var(--sidebar-background);
+        font-size: 1.2rem;
     }
 
         .projects-header {
@@ -96,6 +97,7 @@ svg {
             justify-content: space-between;
             align-items: center;
             list-style: none;
+            font-size: 1rem;
         }
 
         .span-project:hover, #new-project:hover, .delete-project {
@@ -165,6 +167,7 @@ svg {
                 grid-column: 2 / 3;
                 display: flex;
                 flex-direction: column;
+                height: 100%;
             }
 
                 .card-content.strike:after {
@@ -199,11 +202,16 @@ svg {
             }
 
             .card-hider {
-                padding: 0px 20px 5px 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 80px;
+                padding: 0px 20px 20px 20px;
             }
 
                 .card-description {
                     padding: 0px 0px 10px 0px;
+                    font-weight: 100;
                 }
 
                 .date-div {
@@ -274,15 +282,17 @@ svg {
             grid-column: 2 / 3;
             grid-row: 2 / 3;
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
-            padding: 20px;
+            padding: 20px 20px 0px 20px;
         }
 
         .modal-content input {
             width: 100%;
             align-self: center;
+            border-radius: 5px;
         }
 
         .submit-name-button {
@@ -328,6 +338,27 @@ svg {
             grid-column: 2 / 3;
             display: flex;
             flex-direction: column;
+            gap: 10px;
+        }
+
+        .task-input input, textarea, select {
+            height: 24px;
+            padding-left: 5px;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+            background-color: var(--content-background);
+        }
+
+        .task-input textarea {
+            height: 48px;
+        }
+
+        .submit-task-button {
+            padding-top: 10px;
+            outline: none;
+            background-color: transparent;
+            border: none;
         }
 
         /* Checkbox */
@@ -363,7 +394,7 @@ svg {
           }  
             
           .checkbox-container input:checked ~ .mark {  
-            background-color: blue;  
+            background-color: rgb(58, 58, 255);  
           }  
             
           /* Create the mark/indicator (hidden when not checked) */  
