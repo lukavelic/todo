@@ -76,7 +76,8 @@ class renderDOM {
                 const taskObject = taskContainer[property];
 
                 const cardDiv = document.createElement('div');
-                cardDiv.setAttribute('class', 'card');                    
+                cardDiv.setAttribute('class', 'card collapsed');
+                cardDiv.setAttribute('id', `${taskObject.id}-card`);                  
                 cardContainer.appendChild(cardDiv);
 
                 const cardPriorityStyle = document.createElement('div');
@@ -90,13 +91,36 @@ class renderDOM {
                 // Title
                 const cardTitle = document.createElement('div');
                 cardTitle.setAttribute('class', 'card-title');
-                cardTitle.innerHTML = `${taskObject.name}`;
+                // cardTitle.setAttribute('id', `${taskObject.id}-expand-icon`);
+                cardTitle.innerHTML = `${taskObject.name} <svg style="width:24px;height:24px" viewBox="0 0 24 24" id="${taskObject.id}-expand-icon">
+                <path fill="currentColor" d="M10,21V19H6.41L10.91,14.5L9.5,13.09L5,17.59V14H3V21H10M14.5,10.91L19,6.41V10H21V3H14V5H17.59L13.09,9.5L14.5,10.91Z" id="${taskObject.id}-expand-icon"/>
+                </svg>`;
                 cardContentDiv.appendChild(cardTitle);
+
+                // Expand / Retract button
+
+                const expandIcon = document.querySelector(`#${taskObject.id}-expand-icon`);
+                // expandIcon.forEach(element => element.addEventListener('click', DOMRenderer.expandTasks))
+                expandIcon.addEventListener('click', DOMRenderer.expandTasks);
+
+                // const expandIcon = document.createElement('div');
+                // expandIcon.setAttribute('class', 'expand-icon')
+                // expandIcon.setAttribute('id', `${taskObject.id}-expand-div`);
+                // expandIcon.innerHTML = ``
+                // cardContentDiv.appendChild(expandIcon)
+
+                // Card Hiders
+
+                const cardHider = document.createElement('div');
+                cardHider.setAttribute('class', 'card-hider hide');
+                cardHider.setAttribute('id', `${taskObject.id}-hider`);
+                cardContentDiv.appendChild(cardHider);
+
                 // Description
                 const cardDescription = document.createElement('div');
                 cardDescription.setAttribute('class', 'card-description');
                 cardDescription.innerHTML = `${taskObject.description}`;
-                cardContentDiv.appendChild(cardDescription);
+                cardHider.appendChild(cardDescription);
                 // Priority
                 if(taskObject.priority === 1) {
                     cardPriorityStyle.setAttribute('class', 'priority-high')
@@ -116,21 +140,29 @@ class renderDOM {
                 cardDateLabel.setAttribute('for', 'date');
                 cardDateLabel.innerText = 'Due:';
 
-                cardContentDiv.appendChild(cardDateLabel)
-                cardContentDiv.appendChild(cardDate);
+                cardHider.appendChild(cardDateLabel)
+                cardHider.appendChild(cardDate);
 
                 // Completion
-                const cardCompletion = document.createElement('select');
+                // const cardCompletionLabel = document.createElement('label');
+                // cardCompletionLabel.setAttribute('for', 'checkbox');
+                // cardCompletionLabel.innerText = 'Completed: '
+
+                const cardCompletion = document.createElement('input');
+                cardCompletion.type = 'checkbox';
                 cardCompletion.setAttribute('class', 'card-completion');
-                cardContentDiv.appendChild(cardCompletion);
+                cardCompletion.setAttribute('name', 'checkbox');
 
-                const cardCompletionDone = document.createElement('option');
-                cardCompletionDone.innerText = 'Done';
-                cardCompletion.appendChild(cardCompletionDone);
+                // cardContentDiv.appendChild(cardCompletionLabel)
+                cardHider.appendChild(cardCompletion);
 
-                const cardCompletionNotDone = document.createElement('option');
-                cardCompletionNotDone.innerText = 'Not Done';
-                cardCompletion.appendChild(cardCompletionNotDone);
+                // const cardCompletionDone = document.createElement('option');
+                // cardCompletionDone.innerText = 'Done';
+                // cardCompletion.appendChild(cardCompletionDone);
+
+                // const cardCompletionNotDone = document.createElement('option');
+                // cardCompletionNotDone.innerText = 'Not Done';
+                // cardCompletion.appendChild(cardCompletionNotDone);
             }
         } else {
             const contentTitle = document.querySelector('.content-project-title');
@@ -281,6 +313,23 @@ class renderDOM {
         project.createNewTask(nameValue, descriptionValue, priorityValue, false, dateValue);  
     
     };
+
+    expandTasks(event) {
+        console.log(event.target)
+        const idGetter = event.target.id.slice(0, -12);
+        console.log(idGetter);
+
+        const cardHider = document.querySelector(`#${idGetter}-card`);
+        console.log(cardHider.classList[1]);
+        
+        if(cardHider.classList[1] === 'collapsed') {
+            cardHider.setAttribute('class', 'card');
+        } else {
+            cardHider.setAttribute('class', 'card collapsed');
+        }
+    }
+
+    
 };
 
 export { renderDOM };
