@@ -1,4 +1,4 @@
-import { projectStorage } from './index'
+import { DOMRenderer, projectStorage } from './index'
 
 // project objects
 
@@ -39,17 +39,68 @@ class CreateProject {
 
     // remove tasks from project object
 
-    deleteTask (selectedProject, taskId) {
+    deleteTask (taskId) {
 
-        console.log(selectedProject.taskStorage)
+        console.log(this)
+        console.log(taskId)
 
         const findTaskIndex = (element) => element.id === taskId;
-        const taskIndex = selectedProject.taskStorage.findIndex(findTaskIndex);
+        const taskIndex = this.taskStorage.findIndex(findTaskIndex);
         console.log(taskIndex)
 
-        selectedProject.taskStorage.splice(taskIndex, 1);
+        this.taskStorage.splice(taskIndex, 1);
 
-        selectedProject.taskCounter--;
+        this.taskCounter--;
+
+        DOMRenderer.renderTasks();
+    }
+
+    checkUncheckTask (taskId) {
+
+        const findTaskIndex = (element) => element.id === taskId;
+        const taskIndex = this.taskStorage.findIndex(findTaskIndex);
+
+        const status = this.taskStorage[taskIndex].status;
+
+        if(status === false){
+            this.taskStorage[taskIndex].status = true;
+        } else {
+            this.taskStorage[taskIndex].status = false;
+        }
+
+        console.log(this.taskStorage)
+    }
+
+    changeTaskPriority (taskId) {
+
+        const findTaskIndex = (element) => element.id === taskId;
+        const taskIndex = this.taskStorage.findIndex(findTaskIndex);
+
+        const priority = this.taskStorage[taskIndex].priority;
+
+        if(priority === 1){
+            this.taskStorage[taskIndex].priority = 3;
+        } else if (priority === 2){
+            this.taskStorage[taskIndex].priority = 1;
+        } else if (priority === 3){
+            this.taskStorage[taskIndex].priority = 2;
+        }
+
+        console.log(this.taskStorage)
+    }
+
+    changeDate(newDate, taskId) {
+
+        const dateValue = newDate;
+        console.log(dateValue)
+        console.log(taskId)
+
+        const findTaskIndex = (element) => element.id === taskId;
+        const taskIndex = this.taskStorage.findIndex(findTaskIndex);
+
+        console.log(this.taskStorage[taskIndex])
+
+        this.taskStorage[taskIndex].date = dateValue;
     }
 
     // id

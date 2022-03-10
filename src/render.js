@@ -86,16 +86,33 @@ class renderDOM {
 
                 const cardContentDiv = document.createElement('div');
                 cardContentDiv.setAttribute('class', 'card-content');
+                cardContentDiv.setAttribute('id', `${taskObject.id}-content`)
                 cardDiv.appendChild(cardContentDiv);
                 
                 // Title
                 const cardTitle = document.createElement('div');
                 cardTitle.setAttribute('class', 'card-title');
                 // cardTitle.setAttribute('id', `${taskObject.id}-expand-icon`);
-                cardTitle.innerHTML = `${taskObject.name} <svg style="width:24px;height:24px" viewBox="0 0 24 24" id="${taskObject.id}-expand-icon">
+                cardTitle.innerHTML = `${taskObject.name} <div class="task-icons">
+                <label class="checkbox-container"><input type="checkbox" id="${taskObject.id}-checkbox"><span class="mark"></span></label>
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24" id="${taskObject.id}-expand-icon">
                 <path fill="currentColor" d="M10,21V19H6.41L10.91,14.5L9.5,13.09L5,17.59V14H3V21H10M14.5,10.91L19,6.41V10H21V3H14V5H17.59L13.09,9.5L14.5,10.91Z" id="${taskObject.id}-expand-icon"/>
-                </svg>`;
+                </svg> <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="delete-project" id="${taskObject.id}-delete-icon">
+                <path fill="currentColor" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" />
+                </svg>
+                </div>`;
                 cardContentDiv.appendChild(cardTitle);
+
+                // Checkbox
+
+                const checkbox = document.querySelector(`#${taskObject.id}-checkbox`)
+                checkbox.addEventListener('click', function(){project.checkUncheckTask(taskObject.id)})
+                checkbox.addEventListener('click', DOMRenderer.strikethroughTaskIfCompleted)
+
+                // Delete Button
+
+                const deleteIcon = document.querySelector(`#${taskObject.id}-delete-icon`);
+                deleteIcon.addEventListener('click', function(){project.deleteTask(taskObject.id)})
 
                 // Expand / Retract button
 
@@ -112,7 +129,7 @@ class renderDOM {
                 // Card Hiders
 
                 const cardHider = document.createElement('div');
-                cardHider.setAttribute('class', 'card-hider hide');
+                cardHider.setAttribute('class', 'card-hider');
                 cardHider.setAttribute('id', `${taskObject.id}-hider`);
                 cardContentDiv.appendChild(cardHider);
 
@@ -129,32 +146,39 @@ class renderDOM {
                 } else if(taskObject.priority === 3) {
                     cardPriorityStyle.setAttribute('class', 'priority-low')
                 }
+
+                // Priority toggle
+
+                cardPriorityStyle.addEventListener('click', DOMRenderer.togglePriority);
+                cardPriorityStyle.addEventListener('click', function(){project.changeTaskPriority(taskObject.id)})
+
                 // Due date
-                const cardDate = document.createElement('input')
-                cardDate.setAttribute('type', 'date');
-                cardDate.setAttribute('value', `${taskObject.date}`)
-                cardDate.setAttribute('name', 'date');
-                cardDate.setAttribute('class', 'card-date');
-
-                const cardDateLabel = document.createElement('label');
-                cardDateLabel.setAttribute('for', 'date');
-                cardDateLabel.innerText = 'Due:';
-
-                cardHider.appendChild(cardDateLabel)
+                const cardDate = document.createElement('div');
+                cardDate.setAttribute('class', 'date-div');
                 cardHider.appendChild(cardDate);
 
-                // Completion
-                // const cardCompletionLabel = document.createElement('label');
-                // cardCompletionLabel.setAttribute('for', 'checkbox');
-                // cardCompletionLabel.innerText = 'Completed: '
 
-                const cardCompletion = document.createElement('input');
-                cardCompletion.type = 'checkbox';
-                cardCompletion.setAttribute('class', 'card-completion');
-                cardCompletion.setAttribute('name', 'checkbox');
+                const dateInput = document.createElement('input')
+                dateInput.setAttribute('type', 'date');
+                dateInput.setAttribute('value', `${taskObject.date}`)
+                dateInput.setAttribute('name', 'date');
+                dateInput.setAttribute('class', 'card-date');
 
-                // cardContentDiv.appendChild(cardCompletionLabel)
-                cardHider.appendChild(cardCompletion);
+                const dateLabel = document.createElement('label');
+                dateLabel.setAttribute('for', 'date');
+                dateLabel.innerText = 'Due: ';
+
+                cardDate.appendChild(dateLabel)
+                cardDate.appendChild(dateInput);
+
+                // Change date
+
+                let newDate;
+                // const newDate = dateInput.onchange.value
+                
+                dateInput.addEventListener('blur', function() {
+                    newDate = dateInput.value;
+                    project.changeDate(newDate, taskObject.id)});
 
                 // const cardCompletionDone = document.createElement('option');
                 // cardCompletionDone.innerText = 'Done';
@@ -326,6 +350,38 @@ class renderDOM {
             cardHider.setAttribute('class', 'card');
         } else {
             cardHider.setAttribute('class', 'card collapsed');
+        }
+    }
+
+    strikethroughTaskIfCompleted (event) {
+        console.log(event)
+        const checkedValue = event.target.checked
+        const taskId = event.target.id.slice(0, -9);
+
+        const contentDiv = document.querySelector(`#${taskId}-content`)
+
+        if(checkedValue === true) {
+            contentDiv.setAttribute('class', 'card-content strike');
+        } else {
+            contentDiv.setAttribute('class', 'card-content')
+        }
+        
+        
+    }
+
+    togglePriority(event) {
+        const priorityDiv = event.target;
+        const priorityValue = priorityDiv.classList[0];
+
+        if (priorityValue === 'priority-low') {
+            priorityDiv.setAttribute('class', 'priority-medium')
+
+        } else if (priorityValue === 'priority-medium') {
+            priorityDiv.setAttribute('class', 'priority-high')
+
+        } else if (priorityValue === 'priority-high') {
+            priorityDiv.setAttribute('class', 'priority-low')
+
         }
     }
 

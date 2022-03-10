@@ -2,9 +2,9 @@
     --header-background: #475569;
     --sidebar-background: #94a3b8;
     --content-background: #f1f5f9;
-    --card-high-priority: red;
-    --card-medium-priority: yellow;
-    --card-low-priority: green;
+    --card-high-priority: rgb(255, 0, 0);
+    --card-medium-priority: rgb(255, 238, 0);
+    --card-low-priority: rgb(37, 184, 0);
     --icon-color: white;
     --title-color: white;
     --title-weight: 800;
@@ -158,17 +158,67 @@ svg {
                 padding: 0px 20px 5px 20px;
                 height: 50px;
             }
+
+            
             .card-content {
+                position: relative;
                 grid-column: 2 / 3;
                 display: flex;
                 flex-direction: column;
+            }
+
+                .card-content.strike:after {
+                    content: " ";
+                    position: absolute;
+                    top: 25px;
+                    left: 10px;
+                    border-bottom: 2px solid var(--header-background);
+                    width: 85%;
+                }
+
+                .strike {
+                    animation-name: FadeIn;
+                    animation-duration: 1s;
+                    transition-timing-function: linear;
+                  }
+                  
+                  @keyframes FadeIn {
+                    0% {
+                      opacity: 0;
+                    }
+                    100% {
+                      opacity: 1;
+                    }
+                  }
                 
-                
+            .task-icons {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
             }
 
             .card-hider {
                 padding: 0px 20px 5px 20px;
             }
+
+                .card-description {
+                    padding: 0px 0px 10px 0px;
+                }
+
+                .date-div {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .card-date {
+                    background-color: var(--content-background);
+                    padding-left: 5px;
+                    border-radius: 5px;
+                    border: none;
+                    outline: none;
+                }
 
             .priority-high {
                 background-color: var(--card-high-priority);
@@ -279,3 +329,62 @@ svg {
             display: flex;
             flex-direction: column;
         }
+
+        /* Checkbox */
+
+        .checkbox-container {  
+            display: flex;  
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;  
+            font-size: 20px;  
+          }  
+            
+          /* Hide the default checkbox */  
+          .checkbox-container input {  
+            visibility: hidden;  
+            cursor: pointer;  
+          }  
+            
+          /* Create a custom checkbox */  
+          .mark {  
+            position: absolute;  
+            top: 0;  
+            left: 0;  
+            height: 20px;  
+            width: 20px;  
+            background-color: var(--content-background); 
+            border-radius: 3px; 
+          }  
+            
+          .checkbox-container:hover input ~ .mark {  
+            background-color: gray;  
+          }  
+            
+          .checkbox-container input:checked ~ .mark {  
+            background-color: blue;  
+          }  
+            
+          /* Create the mark/indicator (hidden when not checked) */  
+          .mark:after {  
+            content: "";  
+            position: absolute;  
+            display: none;  
+          }  
+            
+          /* Show the mark when checked */  
+          .checkbox-container input:checked ~ .mark:after {  
+            display: block;  
+          }  
+            
+          /* Style the mark/indicator */  
+          .checkbox-container .mark:after {  
+            left: 6px;  
+            top: 2px;  
+            width: 5px;  
+            height: 10px;  
+            border: solid white;  
+            border-width: 0 3px 3px 0;  
+            transform: rotate(45deg);  
+          }  
