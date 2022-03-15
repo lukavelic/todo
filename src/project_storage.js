@@ -1,5 +1,6 @@
 import { projectStorage } from "./index";
 import { DOMRenderer } from "./index";
+import { setLocalStorage } from './local_storage';
 
 class CreateProjectStorage {
 
@@ -13,7 +14,6 @@ class CreateProjectStorage {
 
         const findProjectIndex = (element) => element.id === projectId;
         const projectIndex = projectStorage.list.findIndex(findProjectIndex);
-        console.log(projectStorage.list[projectIndex])
 
         return projectStorage.list[projectIndex];
 
@@ -28,7 +28,15 @@ class CreateProjectStorage {
 
         projectStorage.list.splice(projectIndex, 1);
 
+        setLocalStorage();
         DOMRenderer.renderProjectList();
+    }
+
+    // clear storage
+
+    clearStorage() {
+        // delete projectStorage.list;
+        projectStorage.list.length = 0;
     }
 
 

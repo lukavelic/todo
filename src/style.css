@@ -179,7 +179,7 @@ svg {
                     width: 85%;
                 }
 
-                .strike {
+                /* .strike {
                     animation-name: FadeIn;
                     animation-duration: 1s;
                     transition-timing-function: linear;
@@ -192,7 +192,7 @@ svg {
                     100% {
                       opacity: 1;
                     }
-                  }
+                  } */
                 
             .task-icons {
                 display: flex;

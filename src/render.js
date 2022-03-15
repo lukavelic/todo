@@ -29,7 +29,6 @@ class renderDOM {
             projectListUlElement.appendChild(projectListLiElement);
 
             const deleteIcon = document.querySelector(`#${element.id}-delete-icon`);
-            console.log(deleteIcon)
             deleteIcon.addEventListener('click', projectStorage.removeProjectFromStorage);
             deleteIcon.addEventListener('click', DOMRenderer.renderTasks);
         });
@@ -40,16 +39,11 @@ class renderDOM {
     renderTasks(event) {
 
         let project;
-        console.log(project)
 
         if(event !== undefined && event.currentTarget.classList[0] != "task-modal-tick") {
-            console.log('test event')
-            console.log(event)
             const projectId = event.target.id.slice(0, -5);
-            console.log(projectId)
             project = projectStorage.projectGetter(projectId);
         }   else if (event !== undefined && event.currentTarget.classList[0] === "task-modal-tick") {
-            console.log(event)
             const projectId = document.querySelector('.content-project-title').id;
             project = projectStorage.projectGetter(projectId);
             }
@@ -58,7 +52,6 @@ class renderDOM {
             }
 
         if (project !== undefined) {
-            console.log('test on load and yes event')
             const projectName = project.name;
             const projectId = project.id;
 
@@ -222,8 +215,6 @@ class renderDOM {
         const closeIcon = document.querySelector('.project-modal-close');
         const tickIcon = document.querySelector('.project-modal-tick');
     
-        console.log(newProjectElement)
-    
         window.addEventListener('click', function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
@@ -265,12 +256,10 @@ class renderDOM {
 
     newTaskClick() {
         const newTaskIcon = document.querySelectorAll('#new-task');
-        console.log(newTaskIcon)
     
         const modal = document.querySelector('#task-modal');
         const closeIcon = document.querySelector('.task-modal-close');
         const tickIcon = document.querySelector('.task-modal-tick');
-        console.log(tickIcon)
     
         window.addEventListener('click', function(event) {
             if (event.target == modal) {
@@ -322,8 +311,7 @@ class renderDOM {
     createTaskFromInput() {
 
         const projectTitle = document.querySelector('.content-project-title');
-        const projectId = projectTitle.id
-        console.log(projectId)
+        const projectId = projectTitle.id;
 
         const project = projectStorage.projectGetter(projectId);
     
@@ -339,8 +327,11 @@ class renderDOM {
         const priorityInput = document.querySelector('.task-priority');
         let priorityValue = priorityInput.value;
         priorityValue = parseInt(priorityValue);
-    
-        project.createNewTask(nameValue, descriptionValue, priorityValue, false, dateValue);
+
+        if(project === undefined) {
+            alert('Please Select/Create a Project Before Creating Tasks!')
+        }    
+        project.createNewTask(nameValue, descriptionValue, priorityValue, false, dateValue);        
 
         nameInput.value = '';
         descriptionInput.value = '';
@@ -349,12 +340,9 @@ class renderDOM {
     };
 
     expandTasks(event) {
-        console.log(event.target)
         const idGetter = event.target.id.slice(0, -12);
-        console.log(idGetter);
 
         const cardHider = document.querySelector(`#${idGetter}-card`);
-        console.log(cardHider.classList[1]);
         
         if(cardHider.classList[1] === 'collapsed') {
             cardHider.setAttribute('class', 'card');
@@ -364,8 +352,7 @@ class renderDOM {
     }
 
     strikethroughTaskIfCompleted (event) {
-        console.log(event)
-        const checkedValue = event.target.checked
+        const checkedValue = event.target.checked;
         const taskId = event.target.id.slice(0, -9);
 
         const contentDiv = document.querySelector(`#${taskId}-content`)

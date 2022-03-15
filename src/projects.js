@@ -1,4 +1,5 @@
 import { DOMRenderer, projectStorage } from './index'
+import { setLocalStorage, getLocalStorage } from './local_storage';
 
 // project objects
 
@@ -16,7 +17,8 @@ class CreateProject {
 
     addProjectToStorage() {
         projectStorage.list.push(this);
-        // DOMRenderer.renderProjectList(); 
+
+        setLocalStorage();
     }
 
     // add tasks to project object
@@ -35,23 +37,22 @@ class CreateProject {
         this.taskStorage.push(task);
 
         this.taskCounter++;
+
+        setLocalStorage();
     }
 
     // remove tasks from project object
 
     deleteTask (taskId) {
 
-        console.log(this)
-        console.log(taskId)
-
         const findTaskIndex = (element) => element.id === taskId;
         const taskIndex = this.taskStorage.findIndex(findTaskIndex);
-        console.log(taskIndex)
 
         this.taskStorage.splice(taskIndex, 1);
 
         this.taskCounter--;
 
+        setLocalStorage();
         DOMRenderer.renderTasks();
     }
 
@@ -68,7 +69,7 @@ class CreateProject {
             this.taskStorage[taskIndex].status = false;
         }
 
-        console.log(this.taskStorage)
+        setLocalStorage()
     }
 
     changeTaskPriority (taskId) {
@@ -86,21 +87,19 @@ class CreateProject {
             this.taskStorage[taskIndex].priority = 2;
         }
 
-        console.log(this.taskStorage)
+        setLocalStorage()
     }
 
     changeDate(newDate, taskId) {
 
         const dateValue = newDate;
-        console.log(dateValue)
-        console.log(taskId)
 
         const findTaskIndex = (element) => element.id === taskId;
         const taskIndex = this.taskStorage.findIndex(findTaskIndex);
 
-        console.log(this.taskStorage[taskIndex])
-
         this.taskStorage[taskIndex].date = dateValue;
+
+        setLocalStorage()
     }
 
     // id
